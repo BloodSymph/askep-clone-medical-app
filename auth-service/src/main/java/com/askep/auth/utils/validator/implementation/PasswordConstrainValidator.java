@@ -1,5 +1,6 @@
-package com.askep.auth.utils.validator;
+package com.askep.auth.utils.validator.implementation;
 
+import com.askep.auth.utils.validator.ValidPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.passay.*;
