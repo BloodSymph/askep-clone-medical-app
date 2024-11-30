@@ -30,9 +30,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry
-                                .requestMatchers("")
+                                .requestMatchers("/")
                                 .permitAll()
-                                .requestMatchers("")
+                                .requestMatchers("/")
                                 .hasRole("ADMIN")
                 ).userDetailsService(customUserDetailsService)
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer

@@ -1,5 +1,6 @@
 package com.askep.auth.service.user;
 
+import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow();
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UserNotFoundException(
+                        "Can not found user by current email: " + username + " !"
+                ));
     }
 
 }
