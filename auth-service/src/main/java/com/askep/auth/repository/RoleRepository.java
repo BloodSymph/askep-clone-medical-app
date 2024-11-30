@@ -1,14 +1,14 @@
 package com.askep.auth.repository;
 
-import com.askep.auth.entity.UserEntity;
+import com.askep.auth.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
-    Optional<UserEntity> findByEmail(String userEmail);
+    Optional<RoleEntity> findByNameIgnoreCase(String roleName);
 
 }
