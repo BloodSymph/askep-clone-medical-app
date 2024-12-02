@@ -90,6 +90,7 @@ public class JWTService {
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expireTime))
                 .signWith(getSigningKey())
+                .claim("roles", user.getAuthorities())
                 .compact();
     }
 
