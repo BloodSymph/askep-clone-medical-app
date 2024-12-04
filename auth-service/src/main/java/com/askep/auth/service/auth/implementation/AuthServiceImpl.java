@@ -9,7 +9,6 @@ import com.askep.auth.entity.UserEntity;
 import com.askep.auth.exception.exceptions.role.RoleNotFoundException;
 import com.askep.auth.exception.exceptions.user.EmailIsTakenException;
 import com.askep.auth.exception.exceptions.user.EmailNotFoundException;
-import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.repository.RoleRepository;
 import com.askep.auth.repository.TokenRepository;
 import com.askep.auth.repository.UserRepository;
