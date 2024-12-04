@@ -42,6 +42,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "users_password", nullable = false, unique = true, length = 2048)
     private String password;
 
+    @Column(name = "users_role", nullable = false)
+    private Boolean isAMedicalWorker;
+
     @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}

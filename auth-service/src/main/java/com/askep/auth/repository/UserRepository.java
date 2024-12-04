@@ -9,6 +9,12 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByEmail(String userEmail);
+    Optional<UserEntity> findByEmailIgnoreCase(String userEmail);
+
+    Boolean existsByEmailIgnoreCase(String userEmail);
+
+    Boolean existsByVersion(Long version);
+
+    void deleteByEmailIgnoreCase(String email);
 
 }

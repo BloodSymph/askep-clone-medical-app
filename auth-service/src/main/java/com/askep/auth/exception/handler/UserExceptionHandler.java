@@ -1,8 +1,8 @@
 package com.askep.auth.exception.handler;
 
 import com.askep.auth.exception.entity.ExceptionEntity;
+import com.askep.auth.exception.exceptions.user.EmailNotFoundException;
 import com.askep.auth.exception.exceptions.user.UserEntityVersionNotValidException;
-import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.exception.exceptions.user.EmailIsTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import java.util.Date;
 public class UserExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(EmailNotFoundException.class)
     public ResponseEntity<ExceptionEntity> userNotFoundExceptionHandler(
-            UserNotFoundException userNotFoundException) {
+            EmailNotFoundException userNotFoundException) {
         ExceptionEntity exceptionEntity = new ExceptionEntity();
         exceptionEntity.setStatusCode(HttpStatus.NOT_FOUND.value());
         exceptionEntity.setExceptionMessage(userNotFoundException.getMessage());

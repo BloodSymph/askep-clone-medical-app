@@ -30,8 +30,8 @@ public class RegisterRequest {
     @Length(max = 120, message = "Phone number field shod contains maximum {max} character!")
     private String phoneNumber;
 
-    @NotBlank(message = "Phone number field shod not be empty!")
-    @Length(max = 120, message = "Phone number field shod contains maximum {max} character!")
+    @NotBlank(message = "Email field shod not be empty!")
+    @Length(max = 120, message = "Email field shod contains maximum {max} character!")
     @Email(message = "This field shod contains @ - character!")
     private String email;
 
@@ -39,6 +39,10 @@ public class RegisterRequest {
     @Length(max = 120, message = "Password field shod contains maximum {max} character!")
     @ValidPassword
     private String password;
+
+    @NotEmpty
+    @NotBlank(message = "Is a medical worker field shod not be empty!")
+    private Boolean isAMedicalWorker;
 
     @NotNull(message = "Version field shod not contains null value!")
     private Long version;
