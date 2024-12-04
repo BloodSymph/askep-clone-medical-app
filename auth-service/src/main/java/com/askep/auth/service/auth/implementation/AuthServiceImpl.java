@@ -152,13 +152,13 @@ public class AuthServiceImpl implements AuthService {
 
         }
 
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);;
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    private void revokeAllTokenByUser(UserEntity user) {
+    private void revokeAllTokenByUser(UserEntity userEntity) {
 
         List<TokenEntity> validTokens = tokenRepository
-                .findAllAccessTokensByUserId(user.getId());
+                .findAllAccessTokensByUserId(userEntity.getId());
 
         if (validTokens.isEmpty()) {
             return;
@@ -173,14 +173,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void saveUserToken(
-            String accessToken, String refreshToken, UserEntity user) {
+            String accessToken, String refreshToken, UserEntity userEntity) {
 
         TokenEntity tokenEntity = new TokenEntity();
 
         tokenEntity.setAccessToken(accessToken);
         tokenEntity.setRefreshToken(refreshToken);
         tokenEntity.setIsLoggedOut(false);
-        tokenEntity.setUser(user);
+        tokenEntity.setUser(userEntity);
 
         tokenRepository.save(tokenEntity);
 
