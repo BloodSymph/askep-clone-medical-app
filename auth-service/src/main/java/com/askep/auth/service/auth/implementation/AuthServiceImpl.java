@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,15 +102,42 @@ public class AuthServiceImpl implements AuthService {
 
         return new AuthenticationResponse(
                 accessToken, refreshToken,
-                "User registration was successful!"
+                "User authentication was successful!"
         );
 
     }
 
+    //todo: Make authorization by roles
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest loginRequest) {
-        return null;
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+
+        UserEntity userEntity = userRepository
+                .findByEmailIgnoreCase(loginRequest.getEmail())
+                .orElseThrow(
+                        () -> new UsernameNotFoundException(
+                                "Can not find user by username: " + loginRequest.getEmail() + "!"
+                        )
+                );
+
+        String accessToken = jwtService.generateAccessToken(userEntity);
+        String refreshToken = jwtService.generateRefreshToken(userEntity);
+
+        revokeAllTokenByUser(userEntity);
+        saveUserToken(accessToken, refreshToken, userEntity);
+
+        return new AuthenticationResponse(
+                accessToken, refreshToken,
+                "User authorization was successful!"
+        );
+
     }
 
     @Override
