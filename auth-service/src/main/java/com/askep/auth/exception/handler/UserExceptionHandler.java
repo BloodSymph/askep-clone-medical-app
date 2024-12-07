@@ -1,6 +1,7 @@
 package com.askep.auth.exception.handler;
 
 import com.askep.auth.exception.entity.ExceptionEntity;
+import com.askep.auth.exception.exceptions.user.IncorrectPasswordException;
 import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.exception.exceptions.user.UserEntityVersionNotValidException;
 import com.askep.auth.exception.exceptions.user.EmailIsTakenException;
@@ -33,6 +34,17 @@ public class UserExceptionHandler {
         ExceptionEntity exceptionEntity = new ExceptionEntity();
         exceptionEntity.setStatusCode(HttpStatus.BAD_REQUEST.value());
         exceptionEntity.setExceptionMessage(emailIsTakenException.getMessage());
+        exceptionEntity.setExceptionTimeStamp(new Date());
+        return new ResponseEntity<>(exceptionEntity, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ExceptionEntity> incorrectPasswordExceptionHandler(
+            IncorrectPasswordException incorrectPasswordException) {
+        ExceptionEntity exceptionEntity = new ExceptionEntity();
+        exceptionEntity.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        exceptionEntity.setExceptionMessage(incorrectPasswordException.getMessage());
         exceptionEntity.setExceptionTimeStamp(new Date());
         return new ResponseEntity<>(exceptionEntity, HttpStatus.BAD_REQUEST);
     }

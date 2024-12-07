@@ -1,6 +1,7 @@
 package com.askep.auth.service.auth.implementation;
 
 import com.askep.auth.dto.AuthenticationResponse;
+import com.askep.auth.dto.ChangePasswordRequest;
 import com.askep.auth.dto.LoginRequest;
 import com.askep.auth.dto.RegisterRequest;
 import com.askep.auth.entity.RoleEntity;
@@ -8,6 +9,7 @@ import com.askep.auth.entity.TokenEntity;
 import com.askep.auth.entity.UserEntity;
 import com.askep.auth.exception.exceptions.role.RoleNotFoundException;
 import com.askep.auth.exception.exceptions.user.EmailIsTakenException;
+import com.askep.auth.exception.exceptions.user.IncorrectPasswordException;
 import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.repository.RoleRepository;
 import com.askep.auth.repository.TokenRepository;
@@ -92,8 +94,34 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    //todo: Make authorization by roles
+    @Override
+    @Transactional
+    public ResponseEntity<?> changPassword(ChangePasswordRequest changePasswordRequest) {
 
+        UserEntity userEntity = userRepository
+                .findByEmailIgnoreCase(changePasswordRequest.getEmail())
+                .orElseThrow(
+                        () -> new UsernameNotFoundException(
+                                "Can not find user by username: " + changePasswordRequest.getEmail() + "!"
+                        )
+                );
+
+        if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), userEntity.getPassword())) {
+            throw new IncorrectPasswordException(
+                    "Current password: " + changePasswordRequest.getCurrentPassword() + "is incorrect!"
+            );
+        }
+
+        userEntity.setPassword(passwordEncoder.encode(
+                changePasswordRequest.getNewPassword()
+        ));
+
+        userRepository.save(userEntity);
+
+        return new ResponseEntity<>(
+                "Password change was successful!", HttpStatus.ACCEPTED
+        );
+    }
 
     @Override
     @Transactional

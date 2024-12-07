@@ -35,6 +35,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/login")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/change-password")
+                                .authenticated()
                                 .requestMatchers("/")
                                 .hasRole("ADMIN")
                 ).userDetailsService(customUserDetailsService)

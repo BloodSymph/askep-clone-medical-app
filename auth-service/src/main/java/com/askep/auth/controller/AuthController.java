@@ -1,6 +1,7 @@
 package com.askep.auth.controller;
 
 import com.askep.auth.dto.AuthenticationResponse;
+import com.askep.auth.dto.ChangePasswordRequest;
 import com.askep.auth.dto.LoginRequest;
 import com.askep.auth.dto.RegisterRequest;
 import com.askep.auth.service.auth.AuthService;
@@ -26,6 +27,13 @@ public class AuthController {
     public AuthenticationResponse registerLike(
             @Valid @RequestBody RegisterRequest registerRequest) {
         return authService.registerNewUser(registerRequest);
+    }
+
+    @PostMapping("/change-password")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> changePassword(
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return authService.changPassword(changePasswordRequest);
     }
 
     @PostMapping("/login")

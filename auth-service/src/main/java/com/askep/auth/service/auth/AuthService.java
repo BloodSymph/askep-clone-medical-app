@@ -1,6 +1,7 @@
 package com.askep.auth.service.auth;
 
 import com.askep.auth.dto.AuthenticationResponse;
+import com.askep.auth.dto.ChangePasswordRequest;
 import com.askep.auth.dto.LoginRequest;
 import com.askep.auth.dto.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public interface AuthService {
 
     AuthenticationResponse login(LoginRequest loginRequest);
 
-
+    ResponseEntity<?> changPassword(ChangePasswordRequest changePasswordRequest);
 
     ResponseEntity<?> refresh(
             HttpServletRequest httpServletRequest,
