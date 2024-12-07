@@ -1,4 +1,4 @@
-package com.askep.auth.dto;
+package com.askep.auth.dto.auth;
 
 import com.askep.auth.utils.validator.ValidPassword;
 import jakarta.validation.constraints.Email;

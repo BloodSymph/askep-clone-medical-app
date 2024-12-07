@@ -1,4 +1,4 @@
-package com.askep.auth.dto;
+package com.askep.auth.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
 package com.askep.auth.service.auth.implementation;
 
-import com.askep.auth.dto.AuthenticationResponse;
-import com.askep.auth.dto.ChangePasswordRequest;
-import com.askep.auth.dto.LoginRequest;
-import com.askep.auth.dto.RegisterRequest;
+import com.askep.auth.dto.auth.AuthenticationResponse;
+import com.askep.auth.dto.auth.ChangePasswordRequest;
+import com.askep.auth.dto.auth.LoginRequest;
+import com.askep.auth.dto.auth.RegisterRequest;
 import com.askep.auth.entity.RoleEntity;
 import com.askep.auth.entity.TokenEntity;
 import com.askep.auth.entity.UserEntity;

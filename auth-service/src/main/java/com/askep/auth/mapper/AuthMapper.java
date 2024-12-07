@@ -1,7 +1,7 @@
 package com.askep.auth.mapper;
 
-import com.askep.auth.dto.LoginRequest;
-import com.askep.auth.dto.RegisterRequest;
+import com.askep.auth.dto.auth.LoginRequest;
+import com.askep.auth.dto.auth.RegisterRequest;
 import com.askep.auth.entity.UserEntity;
 import org.springframework.stereotype.Component;
 

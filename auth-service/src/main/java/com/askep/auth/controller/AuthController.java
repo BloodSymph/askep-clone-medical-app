@@ -1,9 +1,9 @@
 package com.askep.auth.controller;
 
-import com.askep.auth.dto.AuthenticationResponse;
-import com.askep.auth.dto.ChangePasswordRequest;
-import com.askep.auth.dto.LoginRequest;
-import com.askep.auth.dto.RegisterRequest;
+import com.askep.auth.dto.auth.AuthenticationResponse;
+import com.askep.auth.dto.auth.ChangePasswordRequest;
+import com.askep.auth.dto.auth.LoginRequest;
+import com.askep.auth.dto.auth.RegisterRequest;
 import com.askep.auth.service.auth.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
