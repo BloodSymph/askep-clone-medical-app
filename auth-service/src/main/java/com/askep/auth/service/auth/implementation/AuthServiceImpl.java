@@ -8,7 +8,7 @@ import com.askep.auth.entity.TokenEntity;
 import com.askep.auth.entity.UserEntity;
 import com.askep.auth.exception.exceptions.role.RoleNotFoundException;
 import com.askep.auth.exception.exceptions.user.EmailIsTakenException;
-import com.askep.auth.exception.exceptions.user.EmailNotFoundException;
+import com.askep.auth.exception.exceptions.user.UserNotFoundException;
 import com.askep.auth.repository.RoleRepository;
 import com.askep.auth.repository.TokenRepository;
 import com.askep.auth.repository.UserRepository;
@@ -26,11 +26,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 import static com.askep.auth.mapper.AuthMapper.mapRegisterRequestToUserEntity;
+import static com.askep.auth.utils.security.AuthoritiesConverter.getAuthorities;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
@@ -69,23 +69,8 @@ public class AuthServiceImpl implements AuthService {
                 registerRequest.getPassword()
         ));
 
-        if (registerRequest.getIsAMedicalWorker()) {
-
-            RoleEntity roleEntity = roleRepository
-                    .findByNameIgnoreCase("DOCTOR")
-                    .orElseThrow(
-                            () -> new RoleNotFoundException(
-                                    "Role not founded!"
-                            )
-                    );
-
-            userEntity.setRoles(List.of(roleEntity));
-            userRepository.save(userEntity);
-
-        }
-
         RoleEntity roleEntity = roleRepository
-                .findByNameIgnoreCase("PATIENT")
+                .findByNameIgnoreCase(registerRequest.getRoleName())
                 .orElseThrow(
                         () -> new RoleNotFoundException(
                                 "Role not founded!"
@@ -93,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
                 );
 
         userEntity.setRoles(List.of(roleEntity));
-        userRepository.save(userEntity);
+        userEntity = userRepository.save(userEntity);
 
         String accessToken = jwtService.generateAccessToken(userEntity);
         String refreshToken = jwtService.generateRefreshToken(userEntity);
@@ -108,14 +93,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     //todo: Make authorization by roles
+
+
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest loginRequest) {
 
+        RoleEntity roleEntity = roleRepository.findByNameIgnoreCase(loginRequest.getRoleName()).orElseThrow();
+
+        Collection<RoleEntity> roleEntities = List.of(roleEntity);
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                        loginRequest.getPassword(),
+                        getAuthorities(roleEntities)
                 )
         );
 
@@ -159,7 +151,7 @@ public class AuthServiceImpl implements AuthService {
         UserEntity userEntity = userRepository
                 .findByEmailIgnoreCase(email)
                 .orElseThrow(
-                        () -> new EmailNotFoundException(
+                        () -> new UserNotFoundException(
                                 "Can not find user by email: " + email + "!"
                         )
                 );

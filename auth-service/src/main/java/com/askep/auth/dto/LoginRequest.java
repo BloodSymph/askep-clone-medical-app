@@ -27,7 +27,8 @@ public class LoginRequest {
     private String password;
 
     @NotEmpty
-    @NotBlank(message = "Is a medical worker field shod not be empty!")
-    private Boolean isAMedicalWorker;
+    @NotBlank(message = "Role name field shod not be empty!")
+    @Length(max = 25, message = "Role name field shod contains maximum {max} character!")
+    private String roleName;
 
 }

@@ -27,8 +27,8 @@ public class RoleExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(RoleNotFoundException.class)
-    public ResponseEntity<ExceptionEntity> roleEntityVersionNotValidExceptionExceptionHandler(
+    @ExceptionHandler(RoleEntityVersionNotValidException.class)
+    public ResponseEntity<ExceptionEntity> roleEntityVersionNotValidExceptionHandler(
             RoleEntityVersionNotValidException roleEntityVersionNotValidException) {
         ExceptionEntity exceptionEntity = new ExceptionEntity();
         exceptionEntity.setStatusCode(HttpStatus.CONFLICT.value());

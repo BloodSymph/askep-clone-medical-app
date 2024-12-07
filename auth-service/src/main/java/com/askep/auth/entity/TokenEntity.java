@@ -30,7 +30,7 @@ public class TokenEntity {
     private Boolean isLoggedOut;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 

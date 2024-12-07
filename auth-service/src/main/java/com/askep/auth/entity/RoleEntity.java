@@ -25,7 +25,7 @@ public class RoleEntity {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<UserEntity> users;
 
     @CreationTimestamp

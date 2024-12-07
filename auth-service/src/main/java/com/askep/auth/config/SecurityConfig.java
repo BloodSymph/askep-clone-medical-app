@@ -4,6 +4,7 @@ import com.askep.auth.service.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +31,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry
-                                .requestMatchers("/")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/auth-service/client/register")
+                                .permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/login")
                                 .permitAll()
                                 .requestMatchers("/")
                                 .hasRole("ADMIN")

@@ -15,7 +15,6 @@ public class AuthMapper {
                 .phoneNumber(registerRequest.getPhoneNumber())
                 .email(registerRequest.getEmail())
                 .password(registerRequest.getPassword())
-                .isAMedicalWorker(registerRequest.getIsAMedicalWorker())
                 .version(registerRequest.getVersion())
                 .build();
     }
@@ -24,7 +23,6 @@ public class AuthMapper {
         return UserEntity.builder()
                 .email(loginRequest.getEmail())
                 .password(loginRequest.getPassword())
-                .isAMedicalWorker(loginRequest.getIsAMedicalWorker())
                 .build();
     }
 
