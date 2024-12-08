@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GiveUserPermissionRequest {
+public class UserPermissionRequest {
 
     private String email;
 

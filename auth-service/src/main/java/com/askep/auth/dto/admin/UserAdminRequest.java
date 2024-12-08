@@ -39,11 +39,6 @@ public class UserAdminRequest {
     @ValidPassword
     private String password;
 
-    @NotEmpty
-    @NotBlank(message = "Role name field shod not be empty!")
-    @Length(max = 25, message = "Role name field shod contains maximum {max} character!")
-    private String roleName;
-
     @NotNull(message = "Version field shod not contains null value!")
     private Long version;
 

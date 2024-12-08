@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
                 .findByNameIgnoreCase(registerRequest.getRoleName())
                 .orElseThrow(
                         () -> new RoleNotFoundException(
-                                "Role not founded!"
+                                "Can not find role by name: " + registerRequest.getRoleName() + " !"
                         )
                 );
 
@@ -101,8 +101,8 @@ public class AuthServiceImpl implements AuthService {
         UserEntity userEntity = userRepository
                 .findByEmailIgnoreCase(changePasswordRequest.getEmail())
                 .orElseThrow(
-                        () -> new UsernameNotFoundException(
-                                "Can not find user by username: " + changePasswordRequest.getEmail() + "!"
+                        () -> new UserNotFoundException(
+                                "Can not find user by email: " + changePasswordRequest.getEmail() + "!"
                         )
                 );
 
@@ -121,13 +121,20 @@ public class AuthServiceImpl implements AuthService {
         return new ResponseEntity<>(
                 "Password change was successful!", HttpStatus.ACCEPTED
         );
+
     }
 
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest loginRequest) {
 
-        RoleEntity roleEntity = roleRepository.findByNameIgnoreCase(loginRequest.getRoleName()).orElseThrow();
+        RoleEntity roleEntity = roleRepository
+                .findByNameIgnoreCase(loginRequest.getRoleName())
+                .orElseThrow(
+                        () -> new RoleNotFoundException(
+                                "Can not find role by name: " + loginRequest.getRoleName() + " !"
+                        )
+                );
 
         Collection<RoleEntity> roleEntities = List.of(roleEntity);
 
@@ -143,7 +150,7 @@ public class AuthServiceImpl implements AuthService {
                 .findByEmailIgnoreCase(loginRequest.getEmail())
                 .orElseThrow(
                         () -> new UsernameNotFoundException(
-                                "Can not find user by username: " + loginRequest.getEmail() + "!"
+                                "Can not find user by email: " + loginRequest.getEmail() + "!"
                         )
                 );
 
