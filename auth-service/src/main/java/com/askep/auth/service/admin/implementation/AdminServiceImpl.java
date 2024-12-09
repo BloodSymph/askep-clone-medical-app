@@ -4,6 +4,7 @@ import com.askep.auth.dto.admin.*;
 import com.askep.auth.dto.auth.UserPermissionRequest;
 import com.askep.auth.entity.RoleEntity;
 import com.askep.auth.entity.UserEntity;
+import com.askep.auth.exception.exceptions.role.RoleEntityVersionNotValidException;
 import com.askep.auth.exception.exceptions.role.RoleNotFoundException;
 import com.askep.auth.exception.exceptions.user.UserEntityVersionNotValidException;
 import com.askep.auth.exception.exceptions.user.UserNotFoundException;
@@ -202,6 +203,12 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public RoleAdminResponse updateRole(RoleAdminRequest roleAdminRequest) {
 
+        if (!roleRepository.existsByVersion(roleAdminRequest.getVersion())) {
+            throw new RoleEntityVersionNotValidException(
+                    "Role Entity version not valid!"
+            );
+        }
+
         RoleEntity roleEntity = roleRepository
                 .findByNameIgnoreCase(roleAdminRequest.getName())
                 .orElseThrow(
@@ -210,13 +217,28 @@ public class AdminServiceImpl implements AdminService {
                         )
                 );
 
-        return null;
+        roleEntity.setName(roleAdminRequest.getName());
+        roleEntity.setVersion(roleEntity.getVersion());
+
+        roleRepository.save(roleEntity);
+
+        return mapToRoleAdminResponse(roleEntity);
     }
 
     @Override
     @Transactional
     public void deleteRoleBy(String roleName, Long version) {
-
+        if (!roleRepository.existsByVersion(version)) {
+            throw new RoleEntityVersionNotValidException(
+                    "Role Entity version not valid!"
+            );
+        }
+        if (!roleRepository.existsByNameIgnoreCase(roleName)) {
+            throw new RoleNotFoundException(
+                    "Can not find role by name: " + roleName + " !"
+            );
+        }
+        roleRepository.deleteByNameIgnoreCase(roleName);
     }
 
 }
