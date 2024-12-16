@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/change-password")
                                 .authenticated()
                                 .requestMatchers("/api/v1/auth-service/admin/**")
+                                .hasRole("ADMIN")
                 ).userDetailsService(customUserDetailsService)
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
