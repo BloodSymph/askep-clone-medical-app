@@ -193,6 +193,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Page<RoleAdminResponse> searchRoles(Pageable pageable, String searchText) {
+        return roleRepository
+                .searchRoleEntitiesBy(pageable, searchText)
+                .map(RoleAdminMapper::mapToRoleAdminResponse);
+    }
+
+    @Override
     public RoleAdminResponse createNewRole(RoleAdminRequest roleAdminRequest) {
         RoleEntity roleEntity = mapToRoleAdminRequestToEntity(roleAdminRequest);
         roleRepository.save(roleEntity);

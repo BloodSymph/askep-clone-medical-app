@@ -30,6 +30,8 @@ public interface AdminService {
 
     Page<RoleAdminResponse> getAllRoles(Pageable pageable);
 
+    Page<RoleAdminResponse> searchRoles(Pageable pageable, String searchText);
+
     RoleAdminResponse createNewRole(RoleAdminRequest roleAdminRequest);
 
     RoleAdminResponse updateRole(RoleAdminRequest roleAdminRequest);
