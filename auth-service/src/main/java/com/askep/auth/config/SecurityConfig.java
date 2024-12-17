@@ -49,8 +49,10 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/change-password")
                                 .authenticated()
+                                .requestMatchers(HttpMethod.POST, "api/v1/auth-service/client/refresh")
+                                .permitAll()
                                 .requestMatchers("/api/v1/auth-service/admin/**")
-                                .hasRole("ADMIN")
+                                .hasAuthority("ADMIN")
                 ).userDetailsService(customUserDetailsService)
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

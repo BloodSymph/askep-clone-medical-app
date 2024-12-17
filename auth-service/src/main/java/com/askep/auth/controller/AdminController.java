@@ -1,7 +1,7 @@
 package com.askep.auth.controller;
 
 import com.askep.auth.dto.admin.*;
-import com.askep.auth.dto.auth.UserPermissionRequest;
+import com.askep.auth.dto.admin.UserPermissionRequest;
 import com.askep.auth.service.admin.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

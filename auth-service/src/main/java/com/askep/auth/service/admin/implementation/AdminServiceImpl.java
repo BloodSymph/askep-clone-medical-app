@@ -1,7 +1,7 @@
 package com.askep.auth.service.admin.implementation;
 
 import com.askep.auth.dto.admin.*;
-import com.askep.auth.dto.auth.UserPermissionRequest;
+import com.askep.auth.dto.admin.UserPermissionRequest;
 import com.askep.auth.entity.RoleEntity;
 import com.askep.auth.entity.UserEntity;
 import com.askep.auth.exception.exceptions.role.RoleEntityVersionNotValidException;
@@ -202,7 +202,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public RoleAdminResponse createNewRole(RoleAdminRequest roleAdminRequest) {
         RoleEntity roleEntity = mapToRoleAdminRequestToEntity(roleAdminRequest);
-        roleRepository.save(roleEntity);
+        roleEntity = roleRepository.save(roleEntity);
         return mapToRoleAdminResponse(roleEntity);
     }
 

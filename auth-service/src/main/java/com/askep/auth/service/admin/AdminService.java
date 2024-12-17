@@ -1,8 +1,7 @@
 package com.askep.auth.service.admin;
 
 import com.askep.auth.dto.admin.*;
-import com.askep.auth.dto.auth.UserPermissionRequest;
-import com.askep.auth.mapper.RoleAdminMapper;
+import com.askep.auth.dto.admin.UserPermissionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
