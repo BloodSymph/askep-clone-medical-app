@@ -1,4 +1,4 @@
-package com.askep.auth.utils.cache;
+package com.askep.doctor.utils.cache;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.cache.CacheManager;

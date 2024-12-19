@@ -1,20 +1,20 @@
-package com.askep.doctor.utils;
+package com.askep.doctor.utils.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.UtilityClass;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
 
-@UtilityClass
-@RequiredArgsConstructor
+@Component
 public class JWTUtil {
 
     @Value("${application.security.jwt.secret-key}")
@@ -23,26 +23,36 @@ public class JWTUtil {
     @Value("${application.security.jwt.expiration}")
     private Long accessTokenExpiration;
 
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    public Boolean validateToken(String accessToken) {
+        return !isTokenExpired(accessToken);
     }
 
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public String extractUserEmail(String accessToken) {
+        return extractClaim(accessToken, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
-        Claims claims = extractAllClaims(token);
+    private Boolean isTokenExpired(String accessToken) {
+        return extractExpiration(accessToken).before(new Date());
+    }
+
+    private Date extractExpiration(String accessToken) {
+        return extractClaim(accessToken, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String accessToken, Function<Claims, T> resolver) {
+        Claims claims = extractAllClaims(accessToken);
         return resolver.apply(claims);
     }
-    
-    private Claims extractAllClaims(String token) {
+
+    public Claims extractAllClaims(String accessToken) {
+
         return Jwts
                 .parser()
                 .verifyWith(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(accessToken)
                 .getPayload();
+
     }
 
     private SecretKey getSigningKey() {
