@@ -14,6 +14,8 @@ import com.askep.auth.repository.RoleRepository;
 import com.askep.auth.repository.UserRepository;
 import com.askep.auth.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.askep.auth.mapper.RoleAdminMapper.mapToRoleAdminRequestToEntity;
 import static com.askep.auth.mapper.RoleAdminMapper.mapToRoleAdminResponse;
 import static com.askep.auth.mapper.UserAdminMapper.*;
+import static com.askep.auth.utils.cache.CacheEvictUtil.evictAllCaches;
 
 
 @Service
@@ -51,6 +54,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Cacheable(value = "user_details", key = "#userEmail", unless = "#result == 0")
     public UserAdminDetailsResponse getUserInfo(String userEmail) {
         UserEntity userEntity = userRepository
                 .getUserDetails(userEmail)
@@ -246,6 +250,11 @@ public class AdminServiceImpl implements AdminService {
             );
         }
         roleRepository.deleteByNameIgnoreCase(roleName);
+    }
+
+    @Override
+    public void evictAllCache() {
+        evictAllCaches();
     }
 
 }

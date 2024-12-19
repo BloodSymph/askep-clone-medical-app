@@ -4,6 +4,7 @@ import com.askep.auth.dto.admin.*;
 import com.askep.auth.dto.admin.UserPermissionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,5 +38,7 @@ public interface AdminService {
 
     void deleteRoleBy(String roleName, Long version);
 
+    @Scheduled(fixedRate = 200)
+    void evictAllCache();
 
 }
