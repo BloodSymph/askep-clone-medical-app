@@ -23,7 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry
                                 .requestMatchers(HttpMethod.GET, "/api/v1/doctor-service/test")
-                                .hasAuthority("ADMIN")
+                                .hasRole("ADMIN")
                 ).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

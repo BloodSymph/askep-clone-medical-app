@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 import static com.askep.doctor.utils.security.AuthoritiesConverter.getAuthorities;
@@ -56,12 +59,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
                 Claims claims = jwtUtil.extractAllClaims(token);
 
-                Collection<Claims> authorities = new ArrayList<>();
-
-                authorities.add(claims);
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        jwtUtil.extractAllClaims(token), null, getAuthorities(authorities)
+                        jwtUtil.extractAllClaims(token), null, getAuthorities(claims)
                 );
 
                 authenticationToken.setDetails(
