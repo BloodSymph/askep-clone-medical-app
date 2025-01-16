@@ -20,15 +20,6 @@ public class UserAdminResponse {
 
     private Long id;
 
-    @JsonProperty("first_name")
-    private String firstName;
-
-    @JsonProperty("last_name")
-    private String lastName;
-
-    @JsonProperty("phone_number")
-    private String phoneNumber;
-
     private String email;
 
     @JsonProperty("created_at")

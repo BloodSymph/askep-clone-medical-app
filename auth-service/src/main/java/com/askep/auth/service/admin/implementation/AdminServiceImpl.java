@@ -91,9 +91,6 @@ public class AdminServiceImpl implements AdminService {
                         )
                 );
 
-        userEntity.setFirstName(userAdminRequest.getFirstName());
-        userEntity.setLastName(userAdminRequest.getLastName());
-        userEntity.setPhoneNumber(userAdminRequest.getPhoneNumber());
         userEntity.setEmail(userAdminRequest.getEmail());
         userEntity.setPassword(
                 passwordEncoder.encode(userAdminRequest.getPassword())

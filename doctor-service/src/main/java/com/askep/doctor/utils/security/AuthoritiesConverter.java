@@ -11,16 +11,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class AuthoritiesConverter {
 
-
+    private List<GrantedAuthority> grantedAuthorities;
 
     public static Collection<? extends GrantedAuthority> getAuthorities(Claims claims) {
 
-        return null;
-    }
+        Object claim = claims.get("roles");
 
+        List<?> listAuthorities = (ArrayList<?>) claim;
+
+
+        return grantedAuthorities;
+
+    }
 
 }

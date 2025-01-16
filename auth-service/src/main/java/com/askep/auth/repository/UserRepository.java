@@ -14,11 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT user FROM User user WHERE LOWER(user.email) LIKE CONCAT('%', :searchText, '%') "
-            + "OR LOWER(user.firstName) LIKE CONCAT('%', :searchText, '%')"
-            + "OR LOWER(user.lastName) LIKE CONCAT('%', :searchText, '%')"
-            + "OR LOWER(user.phoneNumber) LIKE CONCAT('%', :searchText, '%')"
-    )
+    @Query("SELECT user FROM User user WHERE LOWER(user.email) LIKE CONCAT('%', :searchText, '%') ")
     Page<UserEntity> searchBy(Pageable pageable, @Param(value = "searchText") String searchText);
 
     @EntityGraph(value = "user-roles-named-entity-graph", type = EntityGraph.EntityGraphType.FETCH)

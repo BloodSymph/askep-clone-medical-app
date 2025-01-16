@@ -16,6 +16,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class UserAdminDetailsResponse extends UserAdminResponse {
 
-    List<RoleEntity> roles;
+   private List<RoleEntity> roles;
 
 }

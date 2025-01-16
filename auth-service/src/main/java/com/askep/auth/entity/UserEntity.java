@@ -31,15 +31,6 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "users_first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "users_last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "users_phone_number", nullable = false)
-    private String phoneNumber;
-
     @Column(name = "users_email", nullable = false, unique = true)
     private String email;
 
