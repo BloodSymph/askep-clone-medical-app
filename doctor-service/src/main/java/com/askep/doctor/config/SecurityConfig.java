@@ -33,12 +33,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .oauth2Login(Customizer.withDefaults())
-                .oauth2Client(Customizer.withDefaults())
-                .oauth2ResourceServer(
-                        httpSecurityOAuth2ResourceServerConfigurer ->
-                                httpSecurityOAuth2ResourceServerConfigurer.jwt(Customizer.withDefaults())
-                )
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry

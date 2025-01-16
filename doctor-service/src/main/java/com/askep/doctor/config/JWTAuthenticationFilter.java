@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 
-
+import static com.askep.doctor.utils.security.CustomAuthorityConverter.customAuthorityConverter;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
@@ -56,7 +56,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        jwtUtil.extractAllClaims(token), null, null
+                        jwtUtil.extractAllClaims(token), null, customAuthorityConverter(claims)
                 );
 
                 authenticationToken.setDetails(
