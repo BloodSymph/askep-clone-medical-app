@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry
                                 .requestMatchers(HttpMethod.GET, "/api/v1/doctor-service/test")
-                                .hasRole("ADMIN")
+                                .hasAuthority("ADMIN")
                 ).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
