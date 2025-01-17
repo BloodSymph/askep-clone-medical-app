@@ -22,14 +22,23 @@ public class DoctorProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "doctor_first_name", nullable = false)
+    @Column(name = "doctors_first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "doctor_last_name", nullable = false)
+    @Column(name = "doctors_last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "doctor_phone_number", nullable = false)
+    @Column(name = "doctors_phone_number", nullable = false)
     private String phoneNumber;
+
+    @Column(name = "doctors_email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "doctors_address", nullable = false)
+    private String address;
+
+    @Column(name = "doctors_specialization", nullable = false)
+    private String specialization;
 
     @CreationTimestamp
     @Column(name = "doctors_profile_created")
