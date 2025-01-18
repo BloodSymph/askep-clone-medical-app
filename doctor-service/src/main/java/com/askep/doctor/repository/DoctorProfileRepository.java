@@ -20,7 +20,7 @@ public interface DoctorProfileRepository extends JpaRepository<DoctorProfileEnti
             "OR LOWER(doctor.address) LIKE CONCAT('%', :searchText, '%') " +
             "OR LOWER(doctor.specialization) LIKE CONCAT('%', :searchText, '%') "
     )
-    Page<DoctorProfileEntity> searchBy(
+    Page<DoctorProfileEntity> searchByText(
             @Param(value = "searchText") String searchText
     );
 
