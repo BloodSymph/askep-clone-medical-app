@@ -12,9 +12,8 @@ import com.askep.auth.mapper.RoleAdminMapper;
 import com.askep.auth.mapper.UserAdminMapper;
 import com.askep.auth.repository.RoleRepository;
 import com.askep.auth.repository.UserRepository;
-import com.askep.auth.service.admin.AdminService;
+import com.askep.auth.service.admin.AuthAdminService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +29,7 @@ import static com.askep.auth.utils.cache.CacheEvictUtil.evictAllCaches;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements AdminService {
+public class AuthAdminServiceImpl implements AuthAdminService {
 
     private final UserRepository userRepository;
 

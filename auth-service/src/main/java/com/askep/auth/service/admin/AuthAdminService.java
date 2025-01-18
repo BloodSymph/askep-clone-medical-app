@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AdminService {
+public interface AuthAdminService {
 
     Page<UserAdminResponse> getAllUsers(Pageable pageable);
 

@@ -2,7 +2,7 @@ package com.askep.auth.controller;
 
 import com.askep.auth.dto.admin.*;
 import com.askep.auth.dto.admin.UserPermissionRequest;
-import com.askep.auth.service.admin.AdminService;
+import com.askep.auth.service.admin.AuthAdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth-service/admin")
-public class AdminController {
+public class AuthAdminController {
 
-    private final AdminService adminService;
+    private final AuthAdminService authAdminService;
 
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
@@ -28,7 +28,7 @@ public class AdminController {
                     direction = Sort.Direction.ASC,
                     page = 0,
                     size = 15) Pageable pageable) {
-        return adminService.getAllUsers(pageable);
+        return authAdminService.getAllUsers(pageable);
     }
 
     @GetMapping("/users/search")
@@ -43,35 +43,35 @@ public class AdminController {
                     value = "searchText",
                     required = false,
                     defaultValue = "") String searchText) {
-        return adminService.findUsersBy(pageable, searchText);
+        return authAdminService.findUsersBy(pageable, searchText);
     }
 
     @GetMapping("/users/{userEmail}/get-info")
     @ResponseStatus(HttpStatus.OK)
     public UserAdminDetailsResponse getUserDetails(
             @PathVariable(value = "userEmail") String userEmail) {
-        return adminService.getUserInfo(userEmail);
+        return authAdminService.getUserInfo(userEmail);
     }
 
     @PostMapping("/users/create")
     @ResponseStatus(HttpStatus.CREATED)
     public UserAdminResponse creteNewUser(
             @Valid @RequestBody UserAdminRequest userAdminRequest) {
-        return adminService.registerNewUser(userAdminRequest);
+        return authAdminService.registerNewUser(userAdminRequest);
     }
 
     @PutMapping("/users/update")
     @ResponseStatus(HttpStatus.CREATED)
     public UserAdminResponse updateUser(
             @Valid @RequestBody UserAdminRequest userAdminRequest) {
-        return adminService.updateUser(userAdminRequest);
+        return authAdminService.updateUser(userAdminRequest);
     }
 
     @PostMapping("/users/give-permission")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> givePermission(
             @Valid @RequestBody UserPermissionRequest userPermissionRequest) {
-        adminService.givePermission(userPermissionRequest);
+        authAdminService.givePermission(userPermissionRequest);
         return new ResponseEntity<>("Permission give successful!", HttpStatus.OK);
     }
 
@@ -79,7 +79,7 @@ public class AdminController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> removePermissionFromUser(
             @Valid @RequestBody UserPermissionRequest userPermissionRequest) {
-        adminService.deleteUserPermission(userPermissionRequest);
+        authAdminService.deleteUserPermission(userPermissionRequest);
         return new ResponseEntity<>("Permission remove successful!", HttpStatus.OK);
     }
 
@@ -87,7 +87,7 @@ public class AdminController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> removeAllPermissions(
             @PathVariable(value = "userEmail") String userEmail) {
-        adminService.deleteAllPermissions(userEmail);
+        authAdminService.deleteAllPermissions(userEmail);
         return new ResponseEntity<>("Permissions removed successful!", HttpStatus.OK);
     }
 
@@ -96,7 +96,7 @@ public class AdminController {
     public ResponseEntity<String> deleteUserBy(
             @PathVariable(value = "userEmail") String userEmail,
             @RequestParam(value = "userVersion") Long userVersion) {
-        adminService.deleteUserBy(userEmail, userVersion);
+        authAdminService.deleteUserBy(userEmail, userVersion);
         return new ResponseEntity<>("User deleted successful!", HttpStatus.OK);
     }
 
@@ -108,7 +108,7 @@ public class AdminController {
                     direction = Sort.Direction.ASC,
                     page = 0,
                     size = 15) Pageable pageable ){
-        return adminService.getAllRoles(pageable);
+        return authAdminService.getAllRoles(pageable);
     }
 
     @GetMapping("/roles/search")
@@ -123,21 +123,21 @@ public class AdminController {
                     value = "searchText",
                     required = false,
                     defaultValue = "") String searchText) {
-        return adminService.searchRoles(pageable, searchText);
+        return authAdminService.searchRoles(pageable, searchText);
     }
 
     @PostMapping("/roles/create")
     @ResponseStatus(HttpStatus.CREATED)
     public RoleAdminResponse createNewRole(
             @Valid @RequestBody RoleAdminRequest roleAdminRequest) {
-        return adminService.createNewRole(roleAdminRequest);
+        return authAdminService.createNewRole(roleAdminRequest);
     }
 
     @PutMapping("/roles/update")
     @ResponseStatus(HttpStatus.CREATED)
     public RoleAdminResponse updateCurrentRole(
             @Valid @RequestBody RoleAdminRequest roleAdminRequest) {
-        return adminService.updateRole(roleAdminRequest);
+        return authAdminService.updateRole(roleAdminRequest);
     }
 
     @DeleteMapping("/roles/{roleName}/delete")
@@ -145,7 +145,7 @@ public class AdminController {
     public ResponseEntity<String> deleteCurrentRole(
             @PathVariable(value = "roleName") String userEmail,
             @RequestParam(value = "roleVersion") Long userVersion) {
-        adminService.deleteRoleBy(userEmail, userVersion);
+        authAdminService.deleteRoleBy(userEmail, userVersion);
         return new ResponseEntity<>("Role successful deleted!", HttpStatus.OK);
     }
 
