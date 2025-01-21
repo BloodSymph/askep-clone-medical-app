@@ -28,10 +28,10 @@ public class MedPersonalProfileClientRequest {
     @Length(max = 120, message = "Phone number field shod contains maximum {max} character!")
     private String phoneNumber;
 
-    @NotBlank(message = "Email field shod not be empty!")
-    @Length(max = 120, message = "Email field shod contains maximum {max} character!")
-    @Email(message = "This field shod contains @ - character!")
-    private String email;
+//    @NotBlank(message = "Email field shod not be empty!")
+//    @Length(max = 120, message = "Email field shod contains maximum {max} character!")
+//    @Email(message = "This field shod contains @ - character!")
+//    private String email;
 
     @NotBlank(message = "Address field shod not be empty!")
     @Length(max = 120, message = "Address field shod contains maximum {max} character!")

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MedPersonalClientMapper {
 
-    public static MedPersonalProfileClientResponse mapToDoctorClientResponse(
+    public static MedPersonalProfileClientResponse mapToMedPersonalClientResponse(
             MedPersonalProfileEntity medPersonalProfileEntity) {
         return MedPersonalProfileClientResponse.builder()
                 .id(medPersonalProfileEntity.getId())
@@ -21,13 +21,12 @@ public class MedPersonalClientMapper {
                 .build();
     }
 
-    public static MedPersonalProfileEntity mapDoctorProfileRequestToEntity(
+    public static MedPersonalProfileEntity mapMedPersonalProfileRequestToEntity(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest) {
         return MedPersonalProfileEntity.builder()
                 .firstName(medPersonalProfileClientRequest.getFirstName())
                 .lastName(medPersonalProfileClientRequest.getLastName())
                 .phoneNumber(medPersonalProfileClientRequest.getPhoneNumber())
-                .email(medPersonalProfileClientRequest.getEmail())
                 .address(medPersonalProfileClientRequest.getAddress())
                 .specialization(medPersonalProfileClientRequest.getSpecialization())
                 .version(medPersonalProfileClientRequest.getVersion())

@@ -24,12 +24,12 @@ public interface MedPersonalRepository extends JpaRepository<MedPersonalProfileE
             @Param(value = "searchText") String searchText
     );
 
-    Optional<MedPersonalProfileEntity> findByEmailIgnoreCase(String doctorEmail);
+    Optional<MedPersonalProfileEntity> findByEmailIgnoreCase(String medPersonalProfileVersion);
 
-    Boolean existsByEmailIgnoreCase(String doctorEmail);
+    Boolean existsByEmailIgnoreCase(String medPersonalProfileVersion);
 
-    Boolean existsByVersion(Long doctorProfileVersion);
+    Boolean existsByVersion(Long medPersonalProfileVersion);
 
-    void deleteByEmailIgnoreCase(String doctorEmail);
+    void deleteByEmailIgnoreCase(String medPersonalProfileVersion);
     
 }

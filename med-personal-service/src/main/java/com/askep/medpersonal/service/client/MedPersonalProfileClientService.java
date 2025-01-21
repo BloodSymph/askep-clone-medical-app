@@ -15,6 +15,6 @@ public interface MedPersonalProfileClientService {
     MedPersonalProfileClientResponse updateDoctorProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest);
 
-    void deleteDoctorProfile(String doctorEmail, Long doctorVersion);
+    void deleteDoctorProfile(Long medPersonalProfileVersion);
 
 }
