@@ -6,7 +6,7 @@ spring:
     name: doctor-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/doctor
+    url: jdbc:postgresql://localhost:5432/med-personal
     username: postgres
     password: KuzPsina
     driver-class-name: org.postgresql.Driver
