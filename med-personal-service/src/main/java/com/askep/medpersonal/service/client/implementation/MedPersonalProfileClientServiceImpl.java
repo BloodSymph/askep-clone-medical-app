@@ -26,7 +26,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
                 .orElseThrow(
                         () -> new MedPersonalProfileNotFoundException(
-                                "Can not find personal profile by: " +
+                                "Can not find personal profile by email: " +
                                         getUserEmailFromCurrentSession() + "!"
                         )
                 );
@@ -51,7 +51,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
                 .orElseThrow(
                         () -> new MedPersonalProfileNotFoundException(
-                                "Can not find personal profile by: " +
+                                "Can not find personal profile by email: " +
                                         getUserEmailFromCurrentSession() + "!"
                         )
                 );
@@ -78,7 +78,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
             Long medPersonalVersion) {
         if (!medPersonalRepository.existsByEmailIgnoreCase(getUserEmailFromCurrentSession())) {
             throw new MedPersonalProfileNotFoundException(
-                    "Can not find personal profile by: " + getUserEmailFromCurrentSession() + "!"
+                    "Can not find personal profile by email: " + getUserEmailFromCurrentSession() + "!"
             );
         }
         if (!medPersonalRepository.existsByVersion(medPersonalVersion)) {

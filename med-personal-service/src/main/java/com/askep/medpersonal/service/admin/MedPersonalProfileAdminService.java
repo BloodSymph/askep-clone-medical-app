@@ -10,18 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MedPersonalProfileAdminService {
 
-    Page<MedPersonalProfileAdminResponse> getAllDoctorProfiles(Pageable pageable);
+    Page<MedPersonalProfileAdminResponse> getAllMedPersonalProfiles(Pageable pageable);
 
-    Page<MedPersonalProfileAdminResponse> searchDoctorsBy(
+    Page<MedPersonalProfileAdminResponse> searchMedPersonalBy(
             Pageable pageable, String searchText);
 
-    MedPersonalProfileAdminResponse getDoctorProfile(String doctorEmail);
+    MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail);
 
-    MedPersonalProfileAdminResponse registerNewDoctorProfile(
-            MedPersonalProfileClientRequest medPersonalProfileClientRequest);
-    MedPersonalProfileAdminResponse updateCurrentDoctorProfile(
-            MedPersonalProfileClientRequest medPersonalProfileClientRequest);
-
-    void deleteDoctorProfile(String doctorEmail, Long doctorVersion);
+    void deleteMedPersonalProfile(String medPersonalEmail, Long medPersonalVersion);
 
 }
