@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MedPersonalProfileClientService {
 
-    MedPersonalProfileClientResponse getDoctorProfile();
+    MedPersonalProfileClientResponse getMedPersonalProfile();
 
-    MedPersonalProfileClientResponse createDoctorProfile(
+    MedPersonalProfileClientResponse createProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest);
-    MedPersonalProfileClientResponse updateDoctorProfile(
+    MedPersonalProfileClientResponse updateProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest);
 
-    void deleteDoctorProfile(Long medPersonalProfileVersion);
+    void deleteProfile(Long medPersonalProfileVersion);
 
 }

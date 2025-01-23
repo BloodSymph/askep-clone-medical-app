@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/doctor-service/admin")
+@RequestMapping("/api/v1/personal-service/admin")
 public class MedPersonalProfileAdminController {
 
     private final MedPersonalProfileAdminService medPersonalProfileAdminService;

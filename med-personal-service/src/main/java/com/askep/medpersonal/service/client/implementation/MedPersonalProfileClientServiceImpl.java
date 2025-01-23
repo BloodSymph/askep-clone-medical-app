@@ -21,7 +21,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
     private final MedPersonalRepository medPersonalRepository;
 
     @Override
-    public MedPersonalProfileClientResponse getDoctorProfile() {
+    public MedPersonalProfileClientResponse getMedPersonalProfile() {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
                 .orElseThrow(
@@ -34,7 +34,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
     }
 
     @Override
-    public MedPersonalProfileClientResponse createDoctorProfile(
+    public MedPersonalProfileClientResponse createProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest) {
             MedPersonalProfileEntity medPersonalProfileEntity = mapMedPersonalProfileRequestToEntity(
                     medPersonalProfileClientRequest);
@@ -45,7 +45,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
 
     @Override
     @Transactional
-    public MedPersonalProfileClientResponse updateDoctorProfile(
+    public MedPersonalProfileClientResponse updateProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest) {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
@@ -74,7 +74,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
 
     @Override
     @Transactional
-    public void deleteDoctorProfile(
+    public void deleteProfile(
             Long medPersonalVersion) {
         if (!medPersonalRepository.existsByEmailIgnoreCase(getUserEmailFromCurrentSession())) {
             throw new MedPersonalProfileNotFoundException(

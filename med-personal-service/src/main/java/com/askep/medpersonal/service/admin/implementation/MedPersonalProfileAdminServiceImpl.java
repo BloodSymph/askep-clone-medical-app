@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.mapToDoctorProfileAdminResponse;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
@@ -37,6 +38,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     }
 
     @Override
+    @Transactional
     public MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail) {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(medPersonalEmail)
@@ -50,6 +52,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     }
 
     @Override
+    @Transactional
     public void deleteMedPersonalProfile(
             String medPersonalEmail, Long medPersonalVersion) {
         if (!medPersonalRepository.existsByEmailIgnoreCase(medPersonalEmail)) {
