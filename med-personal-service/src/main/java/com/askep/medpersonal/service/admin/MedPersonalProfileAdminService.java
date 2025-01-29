@@ -17,6 +17,8 @@ public interface MedPersonalProfileAdminService {
 
     MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail);
 
+
+
     void deleteMedPersonalProfile(String medPersonalEmail, Long medPersonalVersion);
 
 }

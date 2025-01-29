@@ -1,5 +1,4 @@
-package com.askep.medpersonal.dto.client;
-
+package com.askep.medpersonal.dto.admin;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedPersonalProfileClientRequest {
+public class MedPersonalAdminRequest {
 
     @NotBlank(message = "First name field shod not be empty!")
     @Length(max = 120, message = "First name field shod contains maximum {max} character!")

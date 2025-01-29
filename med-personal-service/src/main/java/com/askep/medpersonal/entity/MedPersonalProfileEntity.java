@@ -22,34 +22,37 @@ public class MedPersonalProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "doctors_first_name", nullable = false)
+    @Column(name = "med_personal_first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "doctors_last_name", nullable = false)
+    @Column(name = "med_personal_last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "doctors_phone_number", nullable = false)
+    @Column(name = "med_personal_phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "doctors_email", nullable = false, unique = true)
+    @Column(name = "med_personal_email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "doctors_address", nullable = false)
+    @Column(name = "med_personal_address", nullable = false)
     private String address;
 
-    @Column(name = "doctors_specialization", nullable = false)
+    @Column(name = "med_personal_specialization", nullable = false)
     private String specialization;
 
+    @Column(name = "med_personal_photo")
+    private String photoUrl;
+
     @CreationTimestamp
-    @Column(name = "doctors_profile_created")
+    @Column(name = "med_personal_profile_created")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "doctors_profile_updatetAt")
+    @Column(name = "med_personal_profile_updatetAt")
     private LocalDateTime updatedAt;
 
     @Version
-    @Column(name = "doctors_profile_version", nullable = false, unique = true)
+    @Column(name = "med_personal_profile_version", nullable = false, unique = true)
     private Long version;
 
 }
