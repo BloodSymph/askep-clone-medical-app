@@ -1,5 +1,6 @@
 package com.askep.medpersonal.service.admin.implementation;
 
+import com.askep.medpersonal.dto.admin.MedPersonaProfileAdminRequest;
 import com.askep.medpersonal.dto.admin.MedPersonalProfileAdminResponse;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import com.askep.medpersonal.entity.MedPersonalProfileEntity;
@@ -49,6 +50,19 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
                         )
                 );
         return mapToDoctorProfileAdminResponse(medPersonalProfileEntity);
+    }
+
+    @Override
+    public MedPersonalProfileAdminResponse createProfile(
+            MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public MedPersonalProfileAdminResponse updateProfile(
+            MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
+        return null;
     }
 
     @Override

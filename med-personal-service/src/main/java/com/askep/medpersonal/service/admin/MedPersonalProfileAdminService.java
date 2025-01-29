@@ -1,8 +1,8 @@
 package com.askep.medpersonal.service.admin;
 
 
+import com.askep.medpersonal.dto.admin.MedPersonaProfileAdminRequest;
 import com.askep.medpersonal.dto.admin.MedPersonalProfileAdminResponse;
-import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,11 @@ public interface MedPersonalProfileAdminService {
 
     MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail);
 
+    MedPersonalProfileAdminResponse createProfile(
+            MedPersonaProfileAdminRequest medPersonaProfileAdminRequest);
 
+    MedPersonalProfileAdminResponse updateProfile(
+            MedPersonaProfileAdminRequest medPersonaProfileAdminRequest);
 
     void deleteMedPersonalProfile(String medPersonalEmail, Long medPersonalVersion);
 

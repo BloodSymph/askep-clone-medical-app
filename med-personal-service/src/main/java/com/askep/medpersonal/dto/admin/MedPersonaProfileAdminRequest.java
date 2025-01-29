@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedPersonalAdminRequest {
+public class MedPersonaProfileAdminRequest {
 
     @NotBlank(message = "First name field shod not be empty!")
     @Length(max = 120, message = "First name field shod contains maximum {max} character!")
