@@ -1,17 +1,25 @@
 package com.askep.medpersonal.service.client.implementation;
 
+import com.askep.medpersonal.config.PropertyConfig;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientResponse;
+import com.askep.medpersonal.dto.file.FileDto;
 import com.askep.medpersonal.entity.MedPersonalProfileEntity;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileNotFoundException;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileVersionNotValidException;
 import com.askep.medpersonal.repository.MedPersonalRepository;
 import com.askep.medpersonal.service.client.MedPersonalProfileClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+
 import static com.askep.medpersonal.mapper.MedPersonalClientMapper.*;
+import static com.askep.medpersonal.utils.file.FileUtil.encodeFile;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
 
 @Service
@@ -20,8 +28,11 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
 
     private final MedPersonalRepository medPersonalRepository;
 
+    private final PropertyConfig propertyConfig;
+
     @Override
-    public MedPersonalProfileClientResponse getMedPersonalProfile() {
+    @Transactional
+    public MedPersonalProfileClientResponse getMedPersonalProfile() throws IOException {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
                 .orElseThrow(
@@ -30,6 +41,11 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
                                         getUserEmailFromCurrentSession() + "!"
                         )
                 );
+
+        if (medPersonalProfileEntity.getPhotoUrl().equals(propertyConfig.getFilePath())) {
+            medPersonalProfileEntity.setPhotoUrl(encodeFile(medPersonalProfileEntity.getPhotoUrl()));
+        }
+
         return mapToMedPersonalClientResponse(medPersonalProfileEntity);
     }
 
@@ -39,6 +55,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
             MedPersonalProfileEntity medPersonalProfileEntity = mapMedPersonalProfileRequestToEntity(
                     medPersonalProfileClientRequest);
             medPersonalProfileEntity.setEmail(getUserEmailFromCurrentSession());
+            medPersonalProfileEntity.setPhotoUrl(propertyConfig.getFilePath());
             medPersonalRepository.save(medPersonalProfileEntity);
         return mapToMedPersonalClientResponse(medPersonalProfileEntity);
     }
@@ -70,6 +87,23 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
         medPersonalProfileEntity.setSpecialization(medPersonalProfileClientRequest.getSpecialization());
         medPersonalRepository.save(medPersonalProfileEntity);
         return mapToMedPersonalClientResponse(medPersonalProfileEntity);
+    }
+
+    @Override
+    @Async("fileExecutor")
+    @Transactional
+    public CompletableFuture<MedPersonalProfileClientResponse> createProfileImg(
+            FileDto fileDto, String profileEmail) throws IOException {
+
+        return null;
+    }
+
+    @Override
+    @Async("fileExecutor")
+    @Transactional
+    public CompletableFuture<MedPersonalProfileClientResponse> deleteProfileImg(
+            String profileEmail) throws IOException {
+        return null;
     }
 
     @Override

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/personal-service/client")
@@ -19,7 +21,7 @@ public class MedPersonalProfileClientController {
 
     @GetMapping("/get-profile")
     @ResponseStatus(HttpStatus.OK)
-    public MedPersonalProfileClientResponse getProfile() {
+    public MedPersonalProfileClientResponse getProfile() throws IOException {
         return medPersonalProfileClientService.getMedPersonalProfile();
     }
 
