@@ -32,6 +32,9 @@ public class MedPersonalProfileAdminResponse {
 
     private String specialization;
 
+    @JsonProperty(value = "photo_path")
+    private String photoPath;
+
     @JsonProperty("created_at")
     @DateTimeFormat(pattern = "E, dd MMM yyyy HH:mm:ss z")
     private LocalDateTime createdAt;

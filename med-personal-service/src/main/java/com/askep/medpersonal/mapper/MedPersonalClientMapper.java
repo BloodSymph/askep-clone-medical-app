@@ -18,6 +18,7 @@ public class MedPersonalClientMapper {
                 .email(medPersonalProfileEntity.getEmail())
                 .address(medPersonalProfileEntity.getAddress())
                 .specialization(medPersonalProfileEntity.getSpecialization())
+                .photoPath(medPersonalProfileEntity.getPhotoUrl())
                 .build();
     }
 

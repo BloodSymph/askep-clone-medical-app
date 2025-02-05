@@ -18,6 +18,7 @@ public class MedPersonalAdminMapper {
                 .email(medPersonalProfileEntity.getEmail())
                 .address(medPersonalProfileEntity.getAddress())
                 .specialization(medPersonalProfileEntity.getSpecialization())
+                .photoPath(medPersonalProfileEntity.getPhotoUrl())
                 .createdAt(medPersonalProfileEntity.getCreatedAt())
                 .updatedAt(medPersonalProfileEntity.getUpdatedAt())
                 .version(medPersonalProfileEntity.getVersion())

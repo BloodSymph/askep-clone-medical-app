@@ -29,4 +29,7 @@ public class MedPersonalProfileClientResponse {
 
     private String specialization;
 
+    @JsonProperty(value = "photo_path")
+    private String photoPath;
+
 }

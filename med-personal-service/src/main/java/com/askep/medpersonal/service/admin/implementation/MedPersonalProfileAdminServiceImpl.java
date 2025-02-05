@@ -23,7 +23,8 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.mapProfileAdminRequestToEntity;
 import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.mapToDoctorProfileAdminResponse;
-import static com.askep.medpersonal.utils.file.FileUtil.encodeFile;
+import static com.askep.medpersonal.utils.file.FileUtil.*;
+import static com.askep.medpersonal.utils.file.RandomFileNameGenerator.generateRandomFileName;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
 
 @Service
@@ -110,7 +111,31 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     public CompletableFuture<MedPersonalProfileAdminResponse> createProfilePhoto(
             FileDto fileDto, String profileEmail) throws IOException {
 
-        return null;
+        MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
+                .findByEmailIgnoreCase(profileEmail)
+                .orElseThrow(
+                        () -> new MedPersonalProfileNotFoundException(
+                                "Can not find personal profile by email: " + profileEmail + "!"
+                        )
+                );
+
+        String decodedFile = decodeFile(
+                generateRandomFileName(), fileDto.getEncodedFile()
+        );
+
+        medPersonalProfileEntity.setPhotoUrl(
+                medPersonalProfileEntity.getPhotoUrl().concat(decodedFile)
+        );
+
+        medPersonalRepository.save(medPersonalProfileEntity);
+
+        writeFile(
+                generateRandomFileName(),
+                propertyConfig.getFilePath(),
+                fileDto.getEncodedFile()
+        );
+
+        return CompletableFuture.completedFuture(mapToDoctorProfileAdminResponse(medPersonalProfileEntity));
     }
 
     @Override
@@ -118,7 +143,20 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     @Async("fileExecutor")
     public CompletableFuture<MedPersonalProfileAdminResponse> deleteProfilePhoto(
             String profileEmail) throws IOException {
-        return null;
+
+        MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
+                .findByEmailIgnoreCase(profileEmail)
+                .orElseThrow(
+                        () -> new MedPersonalProfileNotFoundException(
+                                "Can not find personal profile by email: " + profileEmail + "!"
+                        )
+                );
+
+        deleteFile(medPersonalProfileEntity.getPhotoUrl());
+        medPersonalProfileEntity.setPhotoUrl("");
+        medPersonalRepository.save(medPersonalProfileEntity);
+
+        return CompletableFuture.completedFuture(mapToDoctorProfileAdminResponse(medPersonalProfileEntity));
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
-@ConfigurationProperties(prefix = "askep.store")
+@ConfigurationProperties(prefix = "users.service.store")
 public class PropertyConfig {
 
     private String filePath;

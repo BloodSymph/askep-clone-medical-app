@@ -31,3 +31,7 @@ application:
       refresh-token:
         expiration: 604800000
 
+users:
+  service:
+    store:
+      file-path: D:\PetProjects\AskepClone\askep-medical-system\med-personal-service\src\main\resources\static
