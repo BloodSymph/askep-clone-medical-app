@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/personal-service/admin")
@@ -45,7 +47,7 @@ public class MedPersonalProfileAdminController {
     @GetMapping("/profiles/{profile-email}")
     @ResponseStatus(HttpStatus.OK)
     public MedPersonalProfileAdminResponse getProfileByEmail(
-            @PathVariable (value = "profile-email") String profileEmail) {
+            @PathVariable (value = "profile-email") String profileEmail) throws IOException {
         return medPersonalProfileAdminService.getMedPersonalProfile(profileEmail);
     }
 
