@@ -19,7 +19,8 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import static com.askep.medpersonal.mapper.MedPersonalClientMapper.*;
-import static com.askep.medpersonal.utils.file.FileUtil.encodeFile;
+import static com.askep.medpersonal.utils.file.FileUtil.*;
+import static com.askep.medpersonal.utils.file.RandomFileNameGenerator.generateRandomFileName;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
 
 @Service
@@ -85,6 +86,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
         medPersonalProfileEntity.setEmail(getUserEmailFromCurrentSession());
         medPersonalProfileEntity.setAddress(medPersonalProfileClientRequest.getAddress());
         medPersonalProfileEntity.setSpecialization(medPersonalProfileClientRequest.getSpecialization());
+        medPersonalProfileEntity.setPhotoUrl(propertyConfig.getFilePath());
         medPersonalRepository.save(medPersonalProfileEntity);
         return mapToMedPersonalClientResponse(medPersonalProfileEntity);
     }
@@ -93,18 +95,60 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
     @Async("fileExecutor")
     @Transactional
     public CompletableFuture<MedPersonalProfileClientResponse> createProfileImg(
-            FileDto fileDto, String profileEmail) throws IOException {
+            FileDto fileDto) throws IOException {
+        MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
+                .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
+                .orElseThrow(
+                        () -> new MedPersonalProfileNotFoundException(
+                                "Can not find personal profile by email: " +
+                                        getUserEmailFromCurrentSession() + "!"
+                        )
+                );
 
-        return null;
+        String decodedFile = decodeFile(
+                generateRandomFileName(), fileDto.getEncodedFile()
+        );
+
+        medPersonalProfileEntity.setPhotoUrl(
+                medPersonalProfileEntity.getPhotoUrl().concat(decodedFile)
+        );
+
+        medPersonalRepository.save(medPersonalProfileEntity);
+
+        writeFile(
+                generateRandomFileName(),
+                propertyConfig.getFilePath(),
+                fileDto.getEncodedFile()
+        );
+
+        return CompletableFuture.completedFuture(
+                mapToMedPersonalClientResponse(medPersonalProfileEntity)
+        );
     }
 
     @Override
     @Async("fileExecutor")
     @Transactional
     public CompletableFuture<MedPersonalProfileClientResponse> deleteProfileImg(
-            String profileEmail) throws IOException {
-        return null;
+            ) throws IOException {
+        MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
+                .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
+                .orElseThrow(
+                        () -> new MedPersonalProfileNotFoundException(
+                                "Can not find personal profile by email: " +
+                                        getUserEmailFromCurrentSession() + "!"
+                        )
+                );
+
+        deleteFile(medPersonalProfileEntity.getPhotoUrl());
+        medPersonalProfileEntity.setPhotoUrl("");
+        medPersonalRepository.save(medPersonalProfileEntity);
+
+        return CompletableFuture.completedFuture(
+                mapToMedPersonalClientResponse(medPersonalProfileEntity)
+        );
     }
+
 
     @Override
     @Transactional

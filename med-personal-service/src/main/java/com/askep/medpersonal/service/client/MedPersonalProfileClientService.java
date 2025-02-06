@@ -21,10 +21,9 @@ public interface MedPersonalProfileClientService {
             MedPersonalProfileClientRequest medPersonalProfileClientRequest);
 
     CompletableFuture<MedPersonalProfileClientResponse> createProfileImg(
-            FileDto fileDto, String profileEmail) throws IOException;
+            FileDto fileDto) throws IOException;
 
-    CompletableFuture<MedPersonalProfileClientResponse> deleteProfileImg(
-            String profileEmail) throws IOException;
+    CompletableFuture<MedPersonalProfileClientResponse> deleteProfileImg() throws IOException;
 
     void deleteProfile(Long medPersonalProfileVersion);
 

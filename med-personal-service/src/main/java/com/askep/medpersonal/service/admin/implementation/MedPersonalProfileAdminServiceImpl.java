@@ -135,7 +135,9 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
                 fileDto.getEncodedFile()
         );
 
-        return CompletableFuture.completedFuture(mapToDoctorProfileAdminResponse(medPersonalProfileEntity));
+        return CompletableFuture.completedFuture(
+                mapToDoctorProfileAdminResponse(medPersonalProfileEntity)
+        );
     }
 
     @Override
@@ -156,7 +158,9 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
         medPersonalProfileEntity.setPhotoUrl("");
         medPersonalRepository.save(medPersonalProfileEntity);
 
-        return CompletableFuture.completedFuture(mapToDoctorProfileAdminResponse(medPersonalProfileEntity));
+        return CompletableFuture.completedFuture(
+                mapToDoctorProfileAdminResponse(medPersonalProfileEntity)
+        );
     }
 
     @Override

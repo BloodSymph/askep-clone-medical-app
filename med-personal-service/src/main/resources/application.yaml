@@ -37,5 +37,5 @@ logging:
 
 askep:
   store:
-    file-path: D:\PetProjects\Askep medical program clone\askep-medical-system\med-personal-service\src\main\resources\static
+    file-path: D:\PetProjects\AskepClone\askep-medical-system\med-personal-service\src\main\resources\static
 
