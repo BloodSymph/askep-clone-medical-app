@@ -1,6 +1,7 @@
 package com.askep.medpersonal.exception.handler;
 
 import com.askep.medpersonal.exception.entity.ExceptionEntity;
+import com.askep.medpersonal.exception.exceptions.MedPersonalPhotoError;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileVersionNotValidException;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class MedPersonalProfileExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MedPersonalProfileNotFoundException.class)
-    public ResponseEntity<ExceptionEntity> doctorProfileNotFoundedExceptionHandler(
+    public ResponseEntity<ExceptionEntity> medPersonalProfileNotFoundedExceptionHandler(
             MedPersonalProfileNotFoundException medPersonalProfileNotFoundException){
         ExceptionEntity exceptionEntity = new ExceptionEntity();
         exceptionEntity.setStatusCode(HttpStatus.NOT_FOUND.value());
@@ -26,8 +27,19 @@ public class MedPersonalProfileExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MedPersonalProfileNotFoundException.class)
+    public ResponseEntity<ExceptionEntity> medPersonalProfilePhotoErrorHandler(
+            MedPersonalPhotoError medPersonalPhotoError){
+        ExceptionEntity exceptionEntity = new ExceptionEntity();
+        exceptionEntity.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        exceptionEntity.setExceptionMessage(medPersonalPhotoError.getMessage());
+        exceptionEntity.setExceptionTimeStamp(new Date());
+        return new ResponseEntity<>(exceptionEntity, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MedPersonalProfileVersionNotValidException.class)
-    public ResponseEntity<ExceptionEntity> doctorEntityVersionNotValidExceptionHandler(
+    public ResponseEntity<ExceptionEntity> medPersonalEntityVersionNotValidExceptionHandler(
             MedPersonalProfileVersionNotValidException medPersonalProfileVersionNotValidException){
         ExceptionEntity exceptionEntity = new ExceptionEntity();
         exceptionEntity.setStatusCode(HttpStatus.BAD_REQUEST.value());

@@ -2,6 +2,7 @@ package com.askep.medpersonal.controller;
 
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientResponse;
+import com.askep.medpersonal.dto.file.FileDto;
 import com.askep.medpersonal.service.client.MedPersonalProfileClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +41,19 @@ public class MedPersonalProfileClientController {
             @Valid @RequestBody MedPersonalProfileClientRequest medPersonalProfileClientRequest) {
         return medPersonalProfileClientService
                 .updateProfile(medPersonalProfileClientRequest);
+    }
+
+    @PostMapping("/create-photo")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompletableFuture<MedPersonalProfileClientResponse> createPhoto(
+            @Valid @RequestBody FileDto fileDto) throws IOException {
+        return medPersonalProfileClientService.createProfileImg(fileDto);
+    }
+
+    @DeleteMapping("/delete-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public CompletableFuture<MedPersonalProfileClientResponse> deletePhoto() throws IOException {
+        return medPersonalProfileClientService.deleteProfileImg();
     }
 
     @DeleteMapping("/delete-profile")

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MedPersonalAdminMapper {
 
-    public static MedPersonalProfileAdminResponse mapToDoctorProfileAdminResponse(
+    public static MedPersonalProfileAdminResponse mapToProfileAdminResponse(
             MedPersonalProfileEntity medPersonalProfileEntity) {
         return MedPersonalProfileAdminResponse.builder()
                 .id(medPersonalProfileEntity.getId())

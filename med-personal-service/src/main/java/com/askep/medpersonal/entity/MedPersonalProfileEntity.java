@@ -40,7 +40,7 @@ public class MedPersonalProfileEntity {
     @Column(name = "med_personal_specialization", nullable = false)
     private String specialization;
 
-    @Column(name = "med_personal_photo")
+    @Column(name = "med_personal_photo", nullable = true)
     private String photoUrl;
 
     @CreationTimestamp

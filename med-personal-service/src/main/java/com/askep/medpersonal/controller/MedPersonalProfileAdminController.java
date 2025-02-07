@@ -1,7 +1,11 @@
 package com.askep.medpersonal.controller;
 
+import com.askep.medpersonal.dto.admin.MedPersonaProfileAdminRequest;
 import com.askep.medpersonal.dto.admin.MedPersonalProfileAdminResponse;
+import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
+import com.askep.medpersonal.dto.file.FileDto;
 import com.askep.medpersonal.service.admin.MedPersonalProfileAdminService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
@@ -13,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,6 +56,35 @@ public class MedPersonalProfileAdminController {
         return medPersonalProfileAdminService.getMedPersonalProfile(profileEmail);
     }
 
+    @PostMapping("/profiles/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MedPersonalProfileAdminResponse createProfile(
+            @Valid @RequestBody MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
+        return medPersonalProfileAdminService.createProfile(medPersonaProfileAdminRequest);
+    }
+
+    @PutMapping("/profiles/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MedPersonalProfileAdminResponse updateProfile(
+            @Valid @RequestBody MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
+        return medPersonalProfileAdminService.updateProfile(medPersonaProfileAdminRequest);
+    }
+
+    @PostMapping("/profile/{profileEmail}/create-photo")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompletableFuture<MedPersonalProfileAdminResponse> createPhoto(
+            @Valid @RequestBody FileDto fileDto,
+            @PathVariable(value = "profileEmail") String profileEmail) throws IOException {
+        return medPersonalProfileAdminService.createProfilePhoto(fileDto, profileEmail)
+    }
+
+    @DeleteMapping("/profile/{profileEmail}/delete-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public CompletableFuture<MedPersonalProfileAdminResponse> deletePhoto(
+            @PathVariable(value = "profileEmail") String profileEmail) throws IOException {
+        return medPersonalProfileAdminService.deleteProfilePhoto(profileEmail);
+    }
+
     @DeleteMapping("/profiles/{profile-email}/delete")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteProfile(
@@ -60,6 +94,5 @@ public class MedPersonalProfileAdminController {
         return new ResponseEntity<>(
                 "DProfile successful deleted!", HttpStatus.OK);
     }
-
 
 }

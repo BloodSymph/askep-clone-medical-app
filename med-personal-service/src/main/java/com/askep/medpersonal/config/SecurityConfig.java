@@ -34,8 +34,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         requestMatcherRegistry -> requestMatcherRegistry
-                                .requestMatchers(HttpMethod.GET, "/api/v1/doctor-service/test")
+                                .requestMatchers("/api/v1/personal-service/admin/**")
                                 .hasAuthority("ADMIN")
+                                .requestMatchers("/api/v1/personal-service/client/**")
+                                .authenticated()
                 ).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

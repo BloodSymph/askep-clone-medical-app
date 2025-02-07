@@ -3,15 +3,16 @@ package com.askep.medpersonal.service.admin.implementation;
 import com.askep.medpersonal.config.PropertyConfig;
 import com.askep.medpersonal.dto.admin.MedPersonaProfileAdminRequest;
 import com.askep.medpersonal.dto.admin.MedPersonalProfileAdminResponse;
-import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import com.askep.medpersonal.dto.file.FileDto;
 import com.askep.medpersonal.entity.MedPersonalProfileEntity;
+import com.askep.medpersonal.exception.exceptions.MedPersonalPhotoError;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileNotFoundException;
 import com.askep.medpersonal.exception.exceptions.MedPersonalProfileVersionNotValidException;
 import com.askep.medpersonal.mapper.MedPersonalAdminMapper;
 import com.askep.medpersonal.repository.MedPersonalRepository;
 import com.askep.medpersonal.service.admin.MedPersonalProfileAdminService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -21,8 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
-import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.mapProfileAdminRequestToEntity;
-import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.mapToDoctorProfileAdminResponse;
+import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.*;
 import static com.askep.medpersonal.utils.file.FileUtil.*;
 import static com.askep.medpersonal.utils.file.RandomFileNameGenerator.generateRandomFileName;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
@@ -37,16 +37,32 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     public Page<MedPersonalProfileAdminResponse> getAllMedPersonalProfiles(Pageable pageable) {
-        return medPersonalRepository
-                .findAll(pageable)
-                .map(MedPersonalAdminMapper::mapToDoctorProfileAdminResponse);
+        Page<MedPersonalProfileEntity> medPersonalProfileEntities = medPersonalRepository.findAll(pageable);
+        return getMedPersonalProfileAdminResponses(medPersonalProfileEntities);
     }
 
     @Override
     public Page<MedPersonalProfileAdminResponse> searchMedPersonalBy(Pageable pageable, String searchText) {
-        return medPersonalRepository
-                .searchByText(pageable, searchText)
-                .map(MedPersonalAdminMapper::mapToDoctorProfileAdminResponse);
+        Page<MedPersonalProfileEntity> medPersonalProfileEntities = medPersonalRepository
+                .searchByText(pageable, searchText);
+        return getMedPersonalProfileAdminResponses(medPersonalProfileEntities);
+    }
+
+    @NotNull
+    private Page<MedPersonalProfileAdminResponse> getMedPersonalProfileAdminResponses(
+            Page<MedPersonalProfileEntity> medPersonalProfileEntities) {
+        medPersonalProfileEntities.forEach(
+                profile -> {
+                    try {
+                        if (profile.getPhotoUrl().equals(propertyConfig.getFilePath())) {
+                            profile.setPhotoUrl(encodeFile(profile.getPhotoUrl()));
+                        }
+                    } catch (IOException e) {
+                        throw new MedPersonalPhotoError("Photo file error!");
+                    }
+                }
+        );
+        return medPersonalProfileEntities.map(MedPersonalAdminMapper::mapToProfileAdminResponse);
     }
 
     @Override
@@ -65,7 +81,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
             medPersonalProfileEntity.setPhotoUrl(encodeFile(medPersonalProfileEntity.getPhotoUrl()));
         }
 
-        return mapToDoctorProfileAdminResponse(medPersonalProfileEntity);
+        return mapToProfileAdminResponse(medPersonalProfileEntity);
     }
 
     @Override
@@ -75,7 +91,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
                 medPersonaProfileAdminRequest);
         medPersonalProfileEntity.setPhotoUrl(propertyConfig.getFilePath());
         medPersonalRepository.save(medPersonalProfileEntity);
-        return mapToDoctorProfileAdminResponse(medPersonalProfileEntity);
+        return mapToProfileAdminResponse(medPersonalProfileEntity);
     }
 
     @Override
@@ -102,7 +118,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
         medPersonalRepository.save(medPersonalProfileEntity);
 
-        return mapToDoctorProfileAdminResponse(medPersonalProfileEntity);
+        return mapToProfileAdminResponse(medPersonalProfileEntity);
     }
 
     @Override
@@ -136,7 +152,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
         );
 
         return CompletableFuture.completedFuture(
-                mapToDoctorProfileAdminResponse(medPersonalProfileEntity)
+                mapToProfileAdminResponse(medPersonalProfileEntity)
         );
     }
 
@@ -159,7 +175,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
         medPersonalRepository.save(medPersonalProfileEntity);
 
         return CompletableFuture.completedFuture(
-                mapToDoctorProfileAdminResponse(medPersonalProfileEntity)
+                mapToProfileAdminResponse(medPersonalProfileEntity)
         );
     }
 
