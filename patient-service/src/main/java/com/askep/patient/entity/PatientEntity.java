@@ -54,6 +54,12 @@ public class PatientEntity {
     @Column(name = "patients_profile_updatetAt")
     private LocalDateTime updatedAt;
 
+    @OneToOne(mappedBy = "patient")
+    private AnalysisEntity analysis;
+
+    @OneToOne(mappedBy = "patient")
+    private InstrumentalEntity instrumentalEntity;
+
     @Version
     @Column(name = "patients_profile_version", nullable = false, unique = true)
     private Long version;
