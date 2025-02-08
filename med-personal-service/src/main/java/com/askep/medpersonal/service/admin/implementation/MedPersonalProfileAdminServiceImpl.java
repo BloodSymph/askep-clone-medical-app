@@ -62,6 +62,8 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
                     try {
                         if (profile.getPhotoUrl().equals(propertyConfig.getFilePath())) {
                             profile.setPhotoUrl(encodeFile(profile.getPhotoUrl()));
+                        } else {
+                            return;
                         }
                     } catch (IOException e) {
                         throw new MedPersonalPhotoError("Photo file error!");
