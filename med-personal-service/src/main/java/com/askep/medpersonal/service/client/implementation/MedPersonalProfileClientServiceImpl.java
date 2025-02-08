@@ -10,6 +10,7 @@ import com.askep.medpersonal.exception.exceptions.MedPersonalProfileVersionNotVa
 import com.askep.medpersonal.repository.MedPersonalRepository;
 import com.askep.medpersonal.service.client.MedPersonalProfileClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
     }
 
     @Override
+    @Transactional
     public MedPersonalProfileClientResponse createProfile(
             MedPersonalProfileClientRequest medPersonalProfileClientRequest) {
             MedPersonalProfileEntity medPersonalProfileEntity = mapMedPersonalProfileRequestToEntity(

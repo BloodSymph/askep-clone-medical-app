@@ -6,6 +6,7 @@ import com.askep.medpersonal.dto.admin.MedPersonalProfileAdminResponse;
 import com.askep.medpersonal.dto.file.FileDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,5 +35,8 @@ public interface MedPersonalProfileAdminService {
             String profileEmail) throws IOException;
 
     void deleteMedPersonalProfile(String medPersonalEmail, Long medPersonalVersion);
+
+    @Scheduled(fixedRate = 200)
+    void evictAllCache();
 
 }

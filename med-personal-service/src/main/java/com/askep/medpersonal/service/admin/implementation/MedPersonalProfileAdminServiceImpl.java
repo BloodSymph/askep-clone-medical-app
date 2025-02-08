@@ -12,7 +12,10 @@ import com.askep.medpersonal.mapper.MedPersonalAdminMapper;
 import com.askep.medpersonal.repository.MedPersonalRepository;
 import com.askep.medpersonal.service.admin.MedPersonalProfileAdminService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -23,6 +26,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import static com.askep.medpersonal.mapper.MedPersonalAdminMapper.*;
+import static com.askep.medpersonal.utils.cache.CacheEvictUtil.evictAllCaches;
 import static com.askep.medpersonal.utils.file.FileUtil.*;
 import static com.askep.medpersonal.utils.file.RandomFileNameGenerator.generateRandomFileName;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
@@ -36,12 +40,14 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     private final PropertyConfig propertyConfig;
 
     @Override
+    @Transactional
     public Page<MedPersonalProfileAdminResponse> getAllMedPersonalProfiles(Pageable pageable) {
         Page<MedPersonalProfileEntity> medPersonalProfileEntities = medPersonalRepository.findAll(pageable);
         return getMedPersonalProfileAdminResponses(medPersonalProfileEntities);
     }
 
     @Override
+    @Transactional
     public Page<MedPersonalProfileAdminResponse> searchMedPersonalBy(Pageable pageable, String searchText) {
         Page<MedPersonalProfileEntity> medPersonalProfileEntities = medPersonalRepository
                 .searchByText(pageable, searchText);
@@ -67,6 +73,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     @Transactional
+    @Cacheable(value = "profile", key = "#medPersonalEmail", unless = "#result == null ")
     public MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail) throws IOException {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(medPersonalEmail)
@@ -85,6 +92,8 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "profile", key = "#medPersonaProfileAdminRequest.email", unless = "#result == null ")
     public MedPersonalProfileAdminResponse createProfile(
             MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
         MedPersonalProfileEntity medPersonalProfileEntity =  mapProfileAdminRequestToEntity(
@@ -96,6 +105,7 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     @Transactional
+    @CachePut(value = "profile", key = "#medPersonaProfileAdminRequest.email", unless = "#result == null ")
     public MedPersonalProfileAdminResponse updateProfile(
             MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
@@ -194,6 +204,11 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
             );
         }
         medPersonalRepository.deleteByEmailIgnoreCase(getUserEmailFromCurrentSession());
+    }
+
+    @Override
+    public void evictAllCache() {
+        evictAllCaches();
     }
 
 }
