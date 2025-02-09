@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import static com.askep.medpersonal.mapper.MedPersonalClientMapper.*;
+import static com.askep.medpersonal.utils.cache.CacheEvictUtil.evictAllCaches;
 import static com.askep.medpersonal.utils.file.FileUtil.*;
 import static com.askep.medpersonal.utils.file.RandomFileNameGenerator.generateRandomFileName;
 import static com.askep.medpersonal.utils.security.GetUserFromCurrentAuthSession.getUserEmailFromCurrentSession;
@@ -34,6 +35,7 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
 
     @Override
     @Transactional
+    @Cacheable(value = "profile", unless = "#result == null ")
     public MedPersonalProfileClientResponse getMedPersonalProfile() throws IOException {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
@@ -167,6 +169,11 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
             );
         }
         medPersonalRepository.deleteByEmailIgnoreCase(getUserEmailFromCurrentSession());
+    }
+
+    @Override
+    public void evictAllCache() {
+        evictAllCaches();
     }
 
 }

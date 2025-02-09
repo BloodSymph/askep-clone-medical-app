@@ -4,6 +4,7 @@ package com.askep.medpersonal.service.client;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientRequest;
 import com.askep.medpersonal.dto.client.MedPersonalProfileClientResponse;
 import com.askep.medpersonal.dto.file.FileDto;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -26,5 +27,8 @@ public interface MedPersonalProfileClientService {
     CompletableFuture<MedPersonalProfileClientResponse> deleteProfileImg() throws IOException;
 
     void deleteProfile(Long medPersonalProfileVersion);
+
+    @Scheduled(fixedRate = 200)
+    void evictAllCache();
 
 }

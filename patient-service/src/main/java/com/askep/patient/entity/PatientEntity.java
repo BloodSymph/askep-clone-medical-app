@@ -40,12 +40,6 @@ public class PatientEntity {
     @Column(name = "patients_work", nullable = false)
     private String work;
 
-    @Column(name = "patients_status", nullable = false)
-    private Boolean status;
-
-    @Column(name = "patients_diagnosis", nullable = true)
-    private String diagnosis;
-
     @CreationTimestamp
     @Column(name = "patients_profile_created")
     private LocalDateTime createdAt;
@@ -59,6 +53,13 @@ public class PatientEntity {
 
     @OneToOne(mappedBy = "patient")
     private InstrumentalEntity instrumentalEntity;
+
+    @OneToOne(mappedBy = "patient")
+    private DiagnosisEntity diagnosis;
+
+    @Embedded
+    @Column(name = "patients_status")
+    private PatientStatus patientStatus;
 
     @Version
     @Column(name = "patients_profile_version", nullable = false, unique = true)
