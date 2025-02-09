@@ -57,7 +57,6 @@ public class PatientEntity {
     @OneToOne(mappedBy = "patient")
     private DiagnosisEntity diagnosis;
 
-    @Embedded
     @Column(name = "patients_status")
     private PatientStatus patientStatus;
 

@@ -75,7 +75,7 @@ public class MedPersonalProfileAdminController {
     public CompletableFuture<MedPersonalProfileAdminResponse> createPhoto(
             @Valid @RequestBody FileDto fileDto,
             @PathVariable(value = "profileEmail") String profileEmail) throws IOException {
-        return medPersonalProfileAdminService.createProfilePhoto(fileDto, profileEmail)
+        return medPersonalProfileAdminService.createProfilePhoto(fileDto, profileEmail);
     }
 
     @DeleteMapping("/profile/{profileEmail}/delete-photo")
