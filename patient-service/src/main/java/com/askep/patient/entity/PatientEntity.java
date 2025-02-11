@@ -58,6 +58,7 @@ public class PatientEntity {
     private DiagnosisEntity diagnosis;
 
     @Column(name = "patients_status")
+    @Enumerated(EnumType.STRING)
     private PatientStatus patientStatus;
 
     @Version
