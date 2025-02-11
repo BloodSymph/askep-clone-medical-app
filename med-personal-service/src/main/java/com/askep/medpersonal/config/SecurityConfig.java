@@ -40,6 +40,8 @@ public class SecurityConfig {
                                 .hasAuthority("NURSE")
                                 .requestMatchers("/api/v1/personal-service/client/**")
                                 .hasAuthority("DOCTOR")
+                                .requestMatchers("/api/v1/personal-service/client/test")
+                                .hasAuthority("ADMIN")
                 ).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

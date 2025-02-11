@@ -27,7 +27,7 @@ public class MedPersonalProfileExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MedPersonalProfileNotFoundException.class)
+    @ExceptionHandler(MedPersonalPhotoError.class)
     public ResponseEntity<ExceptionEntity> medPersonalProfilePhotoErrorHandler(
             MedPersonalPhotoError medPersonalPhotoError){
         ExceptionEntity exceptionEntity = new ExceptionEntity();
