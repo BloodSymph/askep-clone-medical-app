@@ -20,9 +20,6 @@ public class JWTUtil {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${application.security.jwt.expiration}")
-    private Long accessTokenExpiration;
-
     public Boolean validateToken(String accessToken) {
         return !isTokenExpired(accessToken);
     }

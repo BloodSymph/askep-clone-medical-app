@@ -16,10 +16,12 @@ public class CustomAuthorityConverter {
     public static List<? extends GrantedAuthority> customAuthorityConverter(Claims claims) {
         List<?> claimList = (List<?>) claims.get("roles");
 
-        return claimList.stream()
+        var parser = claimList.stream()
                 .map(claim -> (LinkedHashMap<String, String>) claim)
                 .map(linkedHashMap -> new SimpleGrantedAuthority(linkedHashMap.get("authority")))
                 .collect(Collectors.toList());
+
+        return parser;
     }
 
 }
