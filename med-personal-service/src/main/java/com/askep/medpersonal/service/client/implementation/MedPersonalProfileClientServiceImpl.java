@@ -35,7 +35,6 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
 
     @Override
     @Transactional
-    @Cacheable(value = "profile", unless = "#result == null ")
     public MedPersonalProfileClientResponse getMedPersonalProfile() throws IOException {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(getUserEmailFromCurrentSession())
@@ -169,11 +168,6 @@ public class MedPersonalProfileClientServiceImpl implements MedPersonalProfileCl
             );
         }
         medPersonalRepository.deleteByEmailIgnoreCase(getUserEmailFromCurrentSession());
-    }
-
-    @Override
-    public void evictAllCache() {
-        evictAllCaches();
     }
 
 }

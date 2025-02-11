@@ -75,7 +75,6 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     @Transactional
-    @Cacheable(value = "profile", key = "#medPersonalEmail", unless = "#result == null ")
     public MedPersonalProfileAdminResponse getMedPersonalProfile(String medPersonalEmail) throws IOException {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
                 .findByEmailIgnoreCase(medPersonalEmail)
@@ -95,7 +94,6 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     @Transactional
-    @CachePut(value = "profile", key = "#medPersonaProfileAdminRequest.email", unless = "#result == null ")
     public MedPersonalProfileAdminResponse createProfile(
             MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
         MedPersonalProfileEntity medPersonalProfileEntity =  mapProfileAdminRequestToEntity(
@@ -107,7 +105,6 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
 
     @Override
     @Transactional
-    @CachePut(value = "profile", key = "#medPersonaProfileAdminRequest.email", unless = "#result == null ")
     public MedPersonalProfileAdminResponse updateProfile(
             MedPersonaProfileAdminRequest medPersonaProfileAdminRequest) {
         MedPersonalProfileEntity medPersonalProfileEntity = medPersonalRepository
@@ -206,11 +203,6 @@ public class MedPersonalProfileAdminServiceImpl implements MedPersonalProfileAdm
             );
         }
         medPersonalRepository.deleteByEmailIgnoreCase(getUserEmailFromCurrentSession());
-    }
-
-    @Override
-    public void evictAllCache() {
-        evictAllCaches();
     }
 
 }

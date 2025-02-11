@@ -28,7 +28,4 @@ public interface MedPersonalProfileClientService {
 
     void deleteProfile(Long medPersonalProfileVersion);
 
-    @Scheduled(fixedRate = 200)
-    void evictAllCache();
-
 }

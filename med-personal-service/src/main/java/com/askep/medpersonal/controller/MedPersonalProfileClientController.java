@@ -20,6 +20,11 @@ public class MedPersonalProfileClientController {
 
     private final MedPersonalProfileClientService medPersonalProfileClientService;
 
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.OK)
+    public String test() {
+        return "Hello";
+    }
 
     @GetMapping("/get-profile")
     @ResponseStatus(HttpStatus.OK)

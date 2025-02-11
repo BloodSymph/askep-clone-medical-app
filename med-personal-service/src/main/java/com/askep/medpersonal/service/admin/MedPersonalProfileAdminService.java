@@ -36,7 +36,4 @@ public interface MedPersonalProfileAdminService {
 
     void deleteMedPersonalProfile(String medPersonalEmail, Long medPersonalVersion);
 
-    @Scheduled(fixedRate = 200)
-    void evictAllCache();
-
 }

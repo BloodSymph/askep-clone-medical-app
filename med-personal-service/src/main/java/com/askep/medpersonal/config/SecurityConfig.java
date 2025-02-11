@@ -37,11 +37,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/personal-service/admin/**")
                                 .hasAuthority("ADMIN")
                                 .requestMatchers("/api/v1/personal-service/client/**")
-                                .hasAuthority("NURSE")
-                                .requestMatchers("/api/v1/personal-service/client/**")
-                                .hasAuthority("DOCTOR")
-                                .requestMatchers("/api/v1/personal-service/client/test")
-                                .hasRole("ADMIN")
+                                .hasAnyAuthority("NURSE", "DOCTOR")
                 ).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
